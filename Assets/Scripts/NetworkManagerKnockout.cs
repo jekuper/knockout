@@ -1,15 +1,18 @@
 using Mirror;
 using UnityEngine;
 using UnityEngine.Events;
+using System.Linq;
 
 public class NetworkManagerKnockout : NetworkManager {
     public int Player1Connection = -1;
     public int Player2Connection = -1;
+    public bool AreAllReady {
+        get { return NetworkServer.connections.All(connection => connection.Value.isReady); }
+    }
 
-    public UnityEvent OnClientsReady = new UnityEvent();
 
-    private int totalPlayersChangingScene = 0;
-    private int readyPlayers = 0;
+    //private int totalPlayersChangingScene = 0;
+    //private int readyPlayers = 0;
 
     public NetworkIdentity Player1Object {
         get {
@@ -68,17 +71,16 @@ public class NetworkManagerKnockout : NetworkManager {
         base.OnServerConnect(conn);
     }
 
-    public override void OnServerChangeScene(string newSceneName) {
-        totalPlayersChangingScene = NetworkServer.connections.Count;
-        readyPlayers = 0;
-        base.OnServerChangeScene(newSceneName);
-    }
+    //public override void OnServerChangeScene(string newSceneName) {
+    //    Debug.Log("Changing scene");
+    //    totalPlayersChangingScene = NetworkServer.connections.Count;
+    //    readyPlayers = 0;
+    //    base.OnServerChangeScene(newSceneName);
+    //}
 
-    public override void OnServerReady(NetworkConnectionToClient conn) {
-        readyPlayers++;
-        if (readyPlayers == totalPlayersChangingScene) {
-            OnClientsReady?.Invoke();
-        }
-        base.OnServerReady(conn);
-    }
+    //public override void OnServerReady(NetworkConnectionToClient conn) {
+    //    readyPlayers++;
+    //    Debug.Log($"Another client ready conn={conn.connectionId} {readyPlayers} {totalPlayersChangingScene}");
+    //    base.OnServerReady(conn);
+    //}
 }

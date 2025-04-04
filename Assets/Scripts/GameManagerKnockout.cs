@@ -34,20 +34,28 @@ public class GameManagerKnockout : NetworkBehaviour {
         }
         Instance = this;
         LoadPucks();
-
-        if (isServer) {
-            NetworkManagerKnockout.singleton.OnClientsReady.AddListener(OnClientsReady);
-        }
     }
 
-    private void OnDestroy() {
-        if (isServer) {
-            NetworkManagerKnockout.singleton.OnClientsReady.RemoveListener(OnClientsReady);
-        }
+    public override void OnStartServer() {
+        base.OnStartServer();
+        Debug.Log("starting corutine");
+        StartCoroutine(WaitForReadyAll());
     }
 
-    private void OnClientsReady() {
-        Debug.Log($"Sending usernames to clients. {Global.Player1Name} {Global.Player2Name}");
+    private IEnumerator WaitForReadyAll() {
+        while (true) {
+            Debug.Log(NetworkManagerKnockout.singleton.AreAllReady);
+            if (NetworkManagerKnockout.singleton.AreAllReady) {
+                Debug.Log("All Ready");
+                break;
+            }
+            foreach (var conn in NetworkServer.connections) {
+                if (!conn.Value.isReady)
+                    Debug.Log($"{conn.Value.connectionId}");
+            }
+            yield return new WaitForEndOfFrame();
+        }
+        Debug.Log("Sending and starting game");
         ServerToAllClientsComm.Instance.RpcSendUsernames(Global.Player1Name, Global.Player2Name);
         StartCoroutine(StateMachine());
     }
