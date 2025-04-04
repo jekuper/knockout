@@ -338,7 +338,7 @@ MonoBehaviour:
   serverMaxMsgsPerTick: 10000
   clientMaxMsgsPerTick: 1000
   sendTimeout: 5000
-  receiveTimeout: 20000
+  receiveTimeout: 15000
   noDelay: 1
   sslEnabled: 0
   sslProtocols: 3072
@@ -395,8 +395,8 @@ MonoBehaviour:
   transport: {fileID: 1322356478}
   networkAddress: localhost
   maxConnections: 100
-  disconnectInactiveConnections: 0
-  disconnectInactiveTimeout: 60
+  disconnectInactiveConnections: 1
+  disconnectInactiveTimeout: 10
   authenticator: {fileID: 1322356479}
   playerPrefab: {fileID: 7581039270030015183, guid: c36e0888e41738d418907f292c596e42, type: 3}
   autoCreatePlayer: 1

@@ -27,6 +27,23 @@ public class NetworkManagerKnockout : NetworkManager {
 
     public override void OnServerDisconnect(NetworkConnectionToClient conn) {
         
+        if (IsPlayer1Authenticated && IsPlayer2Authenticated) {
+            Debug.Log("Both player authenticated but one left. Settings a winner for other");
+
+            if (conn.connectionId == Player1Connection) {
+                StartCoroutine(Global.QuitWithPlayer2Winner());
+                return;
+            }
+            if (conn.connectionId == Player2Connection) {
+                StartCoroutine(Global.QuitWithPlayer1Winner());
+                return;
+            }
+        }
+        else {
+            StartCoroutine(Global.QuitWithMatchCancel());
+            return;
+        }
+
         if (conn.identity.netId == Player1Object.netId) {
             Debug.Log("Player 1 Disconnected!");
             IsPlayer1Authenticated = false;
@@ -39,5 +56,9 @@ public class NetworkManagerKnockout : NetworkManager {
         }
 
         base.OnServerDisconnect(conn);
+    }
+
+    public override void OnServerConnect(NetworkConnectionToClient conn) {
+        base.OnServerConnect(conn);
     }
 }

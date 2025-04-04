@@ -76,6 +76,12 @@ public class GameManagerKnockout : NetworkBehaviour {
         timer = TimeToThink;
         while (timer > 0) {
             timer -= Time.deltaTime;
+
+            if (savedTurns.Count == allPucks.Count) {
+                Debug.Log($"All {allPucks.Count} pucks have a stored charge. Skipping Wait.");
+                break;
+            }
+
             yield return null;
         }
         currentState = GameState.ShowingAllInput;
@@ -166,11 +172,11 @@ public class GameManagerKnockout : NetworkBehaviour {
 
         if (player1Alive && !player2Alive) {
             Debug.Log("player 1 won");
-            Application.Quit(1001); // first player win
+            StartCoroutine(Global.QuitWithPlayer1Winner());
         }
         if (player2Alive && !player1Alive) {
             Debug.Log("player 1 won");
-            Application.Quit(1002); // second player win
+            StartCoroutine(Global.QuitWithPlayer2Winner());
         }
 
         currentState = GameState.Resetting;
@@ -268,5 +274,11 @@ public class GameManagerKnockout : NetworkBehaviour {
         foreach (var puck in allPucks) {
             puck.Unlock();
         }
+    }
+
+
+    [ClientRpc]
+    public void RpcNotifyGameResults(int code) {
+        Global.GameFinishCode = code;
     }
 }
