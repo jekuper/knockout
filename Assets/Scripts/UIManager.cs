@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using TMPro;
+using Mirror;
 
 public class UIManager : MonoBehaviour
 {
@@ -9,8 +10,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI timer;
 
     private void Start() {
-        username1.text = Global.username1;
-        username2.text = Global.username2;
+        if (NetworkClient.active) {
+            username1.text = ServerSharedInfo.Instance.Player1Name;
+            username2.text = ServerSharedInfo.Instance.Player2Name;
+        }
     }
 
     private void Update() {

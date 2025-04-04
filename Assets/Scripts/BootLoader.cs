@@ -11,6 +11,7 @@ public class BootLoader: MonoBehaviour
 {
     [Header("Server Side")]
     [SerializeField] private WagrAuthenticator Authenticator;
+    [SerializeField] private ServerSharedInfo ServerInfo;
 #if UNITY_SERVER
 
     void Start() {
@@ -77,8 +78,8 @@ public class BootLoader: MonoBehaviour
             Application.Quit(999);
             return;
         }
-        Global.username1 = username1;
-        Global.username2 = username2;
+        Global.Player1Name = username1;
+        Global.Player2Name = username2;
 
         NetworkManager.singleton.GetComponent<SimpleWebTransport>().Port = port;
         NetworkManager.singleton.StartServer();

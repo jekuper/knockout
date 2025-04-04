@@ -286,6 +286,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Authenticator: {fileID: 1322356479}
+  ServerInfo: {fileID: 0}
 --- !u!4 &627584422
 Transform:
   m_ObjectHideFlags: 0
@@ -416,8 +417,8 @@ MonoBehaviour:
   evaluationMethod: 0
   evaluationInterval: 3
   timeInterpolationGui: 0
-  Player1Object: {fileID: 0}
-  Player2Object: {fileID: 0}
+  Player1Connection: -1
+  Player2Connection: -1
   IsPlayer1Authenticated: 0
   IsPlayer2Authenticated: 0
 --- !u!4 &1322356481
