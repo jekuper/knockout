@@ -16,7 +16,7 @@ public static class Global {
 
     public static IEnumerator QuitWithPlayer1Winner() {
         try {
-            GameManagerKnockout.Instance.RpcNotifyGameResults(1);
+            ServerToAllClientsComm.Instance.RpcSendGameResult(1);
         }
         catch (Exception e) {
             Debug.LogException(e);
@@ -26,7 +26,7 @@ public static class Global {
     }
     public static IEnumerator QuitWithPlayer2Winner() {
         try {
-            GameManagerKnockout.Instance.RpcNotifyGameResults(2);
+            ServerToAllClientsComm.Instance.RpcSendGameResult(2);
         }
         catch (Exception e) {
             Debug.LogException(e);
@@ -36,7 +36,7 @@ public static class Global {
     }
     public static IEnumerator QuitWithMatchCancel() {
         try {
-            GameManagerKnockout.Instance.RpcNotifyGameResults(0);
+            ServerToAllClientsComm.Instance.RpcSendGameResult(0);
         } catch (Exception e){
             Debug.LogException(e);
         }

@@ -11,8 +11,8 @@ public class UIManager : MonoBehaviour
 
     private void Start() {
         if (NetworkClient.active) {
-            username1.text = ServerSharedInfo.Instance.Player1Name;
-            username2.text = ServerSharedInfo.Instance.Player2Name;
+            username1.text = Global.Player1Name;
+            username2.text = Global.Player2Name;
         }
     }
 

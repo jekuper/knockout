@@ -35,8 +35,10 @@ public class GameManagerKnockout : NetworkBehaviour {
         Instance = this;
         LoadPucks();
 
-        if (isServer)
+        if (isServer) {
+            ServerToAllClientsComm.Instance.RpcSendUsernames(Global.Player1Name, Global.Player2Name);
             StartCoroutine(StateMachine());
+        }
     }
 
     private void LoadPucks() {
@@ -274,11 +276,5 @@ public class GameManagerKnockout : NetworkBehaviour {
         foreach (var puck in allPucks) {
             puck.Unlock();
         }
-    }
-
-
-    [ClientRpc]
-    public void RpcNotifyGameResults(int code) {
-        Global.GameFinishCode = code;
     }
 }
