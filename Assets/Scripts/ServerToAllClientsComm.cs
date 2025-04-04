@@ -11,6 +11,7 @@ public class ServerToAllClientsComm : NetworkBehaviour {
         }
 
         Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     public override void OnStartClient() {
@@ -24,6 +25,7 @@ public class ServerToAllClientsComm : NetworkBehaviour {
 
     [ClientRpc]
     public void RpcSendUsernames(string username1, string username2) {
+        Debug.LogError("RECEIVED RPC");
         Global.Player1Name = username1;
         Global.Player2Name = username2;
     }

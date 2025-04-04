@@ -15,6 +15,7 @@ public static class Global {
 
 
     public static IEnumerator QuitWithPlayer1Winner() {
+        Debug.Log("Quit player 1 win");
         try {
             ServerToAllClientsComm.Instance.RpcSendGameResult(1);
         }
@@ -25,6 +26,7 @@ public static class Global {
         Application.Quit(1001); // first player win
     }
     public static IEnumerator QuitWithPlayer2Winner() {
+        Debug.Log("Quit player 2 win");
         try {
             ServerToAllClientsComm.Instance.RpcSendGameResult(2);
         }
@@ -35,6 +37,7 @@ public static class Global {
         Application.Quit(1002); // first player win
     }
     public static IEnumerator QuitWithMatchCancel() {
+        Debug.Log("Quit match cancel");
         try {
             ServerToAllClientsComm.Instance.RpcSendGameResult(0);
         } catch (Exception e){

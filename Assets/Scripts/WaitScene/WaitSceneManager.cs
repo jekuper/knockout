@@ -4,9 +4,17 @@ using UnityEngine;
 public class WaitSceneManager : MonoBehaviour {
     public float TimeoutAfterFirstConnect = 20f;
     public float TimeoutMax = 180f;
+    public GameObject MainCommunicator;
     private float timer = 0f;
     private float timerMax = 0f;
     private bool switched = false;
+
+    private void Start() {
+        if (NetworkServer.active) {
+            GameObject obj = Instantiate(MainCommunicator);
+            NetworkServer.Spawn(obj);
+        }
+    }
 
     private void Update() {
         if (!NetworkServer.active) {

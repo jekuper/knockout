@@ -10,13 +10,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI timer;
 
     private void Start() {
+    }
+
+    private void Update() {
         if (NetworkClient.active) {
             username1.text = Global.Player1Name;
             username2.text = Global.Player2Name;
         }
-    }
-
-    private void Update() {
         if (GameManagerKnockout.Instance != null) {
             if (GameManagerKnockout.Instance.CurrentState == GameManagerKnockout.GameState.WaitingForInput) {
                 timer.text = GameManagerKnockout.Instance.Timer.ToString("F1");

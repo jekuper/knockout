@@ -1,9 +1,15 @@
 using Mirror;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class NetworkManagerKnockout : NetworkManager {
     public int Player1Connection = -1;
     public int Player2Connection = -1;
+
+    public UnityEvent OnClientsReady = new UnityEvent();
+
+    private int totalPlayersChangingScene = 0;
+    private int readyPlayers = 0;
 
     public NetworkIdentity Player1Object {
         get {
@@ -60,5 +66,19 @@ public class NetworkManagerKnockout : NetworkManager {
 
     public override void OnServerConnect(NetworkConnectionToClient conn) {
         base.OnServerConnect(conn);
+    }
+
+    public override void OnServerChangeScene(string newSceneName) {
+        totalPlayersChangingScene = NetworkServer.connections.Count;
+        readyPlayers = 0;
+        base.OnServerChangeScene(newSceneName);
+    }
+
+    public override void OnServerReady(NetworkConnectionToClient conn) {
+        readyPlayers++;
+        if (readyPlayers == totalPlayersChangingScene) {
+            OnClientsReady?.Invoke();
+        }
+        base.OnServerReady(conn);
     }
 }

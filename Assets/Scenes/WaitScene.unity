@@ -363,6 +363,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 363fcc11e35a11b4c8203f610a9cdf84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TimeoutAfterFirstConnect: 20
+  TimeoutMax: 180
+  MainCommunicator: {fileID: 673916779173798400, guid: f5505d6ecf493a145a525ff39b070cef, type: 3}
 --- !u!4 &1544650196
 Transform:
   m_ObjectHideFlags: 0

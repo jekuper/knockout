@@ -26,7 +26,7 @@ public class GameManagerKnockout : NetworkBehaviour {
     [SyncVar()]
     private float timer;
 
-    private void Start() {
+    private void Awake() {
         if (Instance != null) {
             Debug.LogError("Multiple instances of GameManager!!");
             Destroy(gameObject);
@@ -36,9 +36,20 @@ public class GameManagerKnockout : NetworkBehaviour {
         LoadPucks();
 
         if (isServer) {
-            ServerToAllClientsComm.Instance.RpcSendUsernames(Global.Player1Name, Global.Player2Name);
-            StartCoroutine(StateMachine());
+            NetworkManagerKnockout.singleton.OnClientsReady.AddListener(OnClientsReady);
         }
+    }
+
+    private void OnDestroy() {
+        if (isServer) {
+            NetworkManagerKnockout.singleton.OnClientsReady.RemoveListener(OnClientsReady);
+        }
+    }
+
+    private void OnClientsReady() {
+        Debug.Log($"Sending usernames to clients. {Global.Player1Name} {Global.Player2Name}");
+        ServerToAllClientsComm.Instance.RpcSendUsernames(Global.Player1Name, Global.Player2Name);
+        StartCoroutine(StateMachine());
     }
 
     private void LoadPucks() {
